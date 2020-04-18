@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 
 public class TimeClient {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static final int PARALLEL_THREADS = 10;
+    private static final int PARALLEL_THREADS = 1;
     private String address;
     private int port;
 
