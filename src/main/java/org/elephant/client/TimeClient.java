@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class TimeClient {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -25,16 +24,17 @@ public class TimeClient {
     }
 
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         LoggerUtil.logLevelToInfo();
-        Thread.sleep(TimeUnit.SECONDS.toMillis(10));
+        logger.info("Starting a client to benchmark");
         TimeClient client = new TimeClient("127.0.0.1", 9000, false);
-        client.benchmark(10);
-        client.benchmark(20);
+        client.benchmark(1);
+        client.benchmark(1000);
+        client.benchmark(1000000);
     }
 
     private void benchmark(int maxRequests) {
-        logger.info("Benchmarking for {} requests ", maxRequests);
+        logger.info("Running {} requests ", maxRequests);
         long startTime = System.currentTimeMillis();
         for (int request = 1; request <= maxRequests; request++) {
             printCurrentTime(request);
