@@ -25,7 +25,6 @@ public class TimeClient {
 
     public static void main(String[] args) throws InterruptedException {
         LoggerUtil.logLevelToInfo();
-        logger.info("GRPC Throughput testing");
         final TimeClient client = new TimeClient("127.0.0.1", 9000);
         client.benchmark(1, 1);
         IntStream.range(1, 10).forEach(batch -> {
@@ -44,6 +43,6 @@ public class TimeClient {
         benchmark.start();
         benchmark.await();
         //benchmark.print();
-        logger.info("[Batch-{}] Total time taken for {} requests = {}ms ", batch, maxRequests, (System.currentTimeMillis() - startTime));
+        logger.info("[Batch-{}] Time taken for {} requests: {}ms ", batch, maxRequests, (System.currentTimeMillis() - startTime));
     }
 }
