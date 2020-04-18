@@ -1,0 +1,19 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "org.elephant.timeserver";
+option objc_class_prefix = "TS";
+
+package timeserver;
+
+
+service TimeServer {
+    rpc CurrentTime (CurrentTimeRequest) returns (CurrentTimeResponse) {}
+}
+
+message CurrentTimeRequest {
+    string caller = 1;
+}
+
+message CurrentTimeResponse {
+    int64 time = 1;
+}
