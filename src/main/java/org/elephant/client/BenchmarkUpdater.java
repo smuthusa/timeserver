@@ -31,16 +31,20 @@ public class BenchmarkUpdater implements Callback<CurrentTimeResponse> {
     @Override
     public void done(CurrentTimeResponse currentTimeResponse, Throwable exception) {
         responseCount.incrementAndGet();
-        if (exception == null) {
+        if (exception == null && currentTimeResponse.getTime() > 0) {
             successCount.incrementAndGet();
         } else {
             errorCount.incrementAndGet();
         }
     }
 
-    void start() throws InterruptedException {
+    void runSync() {
         for (int count = 1; count <= maxRequests; count++) {
-            semaphore.acquire();
+            try {
+                semaphore.acquire();
+            } catch (InterruptedException e) {
+                logger.error("Error acquiring semaphore ", e);
+            }
             CurrentTimeRequest request = CurrentTimeRequest.newBuilder().setCaller("NGO").build();
             stub.currentTime(request, new CustomStreamObserver<CurrentTimeResponse>(this, trace) {
                 @Override
@@ -50,7 +54,7 @@ public class BenchmarkUpdater implements Callback<CurrentTimeResponse> {
                 }
             });
         }
-        //logger.info("Total time taken for {} requests = {}ms ", maxRequests, (System.currentTimeMillis() - startTime));
+        await();
     }
 
     void print() {
@@ -59,7 +63,11 @@ public class BenchmarkUpdater implements Callback<CurrentTimeResponse> {
         logger.info("-------------------------------------------------------------------");
     }
 
-    void await() throws InterruptedException {
-        semaphore.acquire(50000);
+    void await() {
+        try {
+            semaphore.acquire(50000);
+        } catch (InterruptedException e) {
+            logger.error("Error acquiring semaphore in await", e);
+        }
     }
 }

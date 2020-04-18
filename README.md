@@ -4,7 +4,9 @@
     mvn clean install
     
 ## Running the server
-    mvn spring-boot:run -Pserver
+    sh run_server.sh
     
 ## Running the client
-    mvn spring-boot:run -Pclient 
+This will start 10 parallel threads each sending 1Million requests.
+
+    sh run_client.sh

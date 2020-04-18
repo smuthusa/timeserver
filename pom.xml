@@ -12,6 +12,7 @@
         <grpc.version>1.28.1</grpc.version>
         <protobuf.version>3.11.0</protobuf.version>
         <protoc.version>3.11.0</protoc.version>
+        <main.class>org.elephant.timeserver.TimeServer.GrpcTimeServer</main.class>
     </properties>
     <dependencies>
         <dependency>
@@ -99,20 +100,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.elephant.client.TimeClient</mainClass>
-                    <profiles>
-                        <profile>client</profile>
-                    </profiles>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>org.elephant.timeserver.TimeServer.GrpcTimeServer</mainClass>
-                    <profiles>
-                        <profile>server</profile>
-                    </profiles>
+                    <mainClass>${main.class}</mainClass>
                 </configuration>
             </plugin>
         </plugins>
